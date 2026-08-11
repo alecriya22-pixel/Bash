@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Birthday Surprise 🎂</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{background:#05060b;color:#fff;font-family:Arial,sans-serif}
+.scene{position:relative;width:100vw;height:100vh;overflow:hidden;background:
+radial-gradient(circle at 50% 45%,#182033 0%,#090c15 45%,#03040a 100%)}
+.stars{position:absolute;inset:0;opacity:.28;background-image:
+radial-gradient(circle,#fff 1px,transparent 1.5px),
+radial-gradient(circle,#fff 1px,transparent 1.5px);
+background-size:85px 85px,137px 137px;background-position:20px 30px,65px 90px}
+.curtain{position:absolute;z-index:100;top:0;width:52%;height:100%;
+background:linear-gradient(90deg,#5c071b,#a8143b 45%,#5c071b);
+box-shadow:0 0 45px #000}
+.curtain.left{left:0;border-right:5px solid #d9a441}
+.curtain.right{right:0;border-left:5px solid #d9a441}
+.curtain.open.left{animation:openL 2s cubic-bezier(.7,0,.2,1) forwards}
+.curtain.open.right{animation:openR 2s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes openL{to{transform:translateX(-100%)}}
+@keyframes openR{to{transform:translateX(100%)}}
+.intro,.final{position:absolute;z-index:110;left:50%;top:45%;transform:translate(-50%,-50%);
+text-align:center;transition:opacity .8s;white-space:nowrap}
+.intro h2{font-size:clamp(1.5rem,5vw,2.5rem);font-weight:normal}
+.hidden{opacity:0;pointer-events:none}
+.start{position:absolute;z-index:120;left:50%;top:52%;transform:translate(-50%,-50%);
+padding:15px 28px;border:0;border-radius:30px;background:#ff4f91;color:#fff;
+font-size:18px;font-weight:bold;box-shadow:0 0 25px #ff4f91;cursor:pointer}
+.start.hide{opacity:0;pointer-events:none;transition:.5s}
+.cake{position:absolute;left:50%;bottom:24%;transform:translateX(-50%);
+width:min(380px,72vw);height:200px;opacity:0;transition:opacity .8s}
+.cake.show{opacity:1}
+.layer{position:absolute;left:0;width:100%;height:78px;border:4px solid #ffb3c6;border-radius:12px}
+.bottom{bottom:0;background:#ff5c8a}
+.frost{position:absolute;bottom:74px;left:0;width:100%;height:34px;background:#fff5f7;border-radius:9px}
+.top{position:absolute;bottom:106px;left:0;width:100%;height:35px;background:#ffb3c6;border-radius:10px}
+.dots{position:absolute;bottom:25px;left:0;width:100%;display:flex;justify-content:space-around}
+.dot{width:14px;height:14px;border-radius:50%;background:#ffd166;box-shadow:0 0 8px #ffd166}
+.candle{position:absolute;bottom:140px;width:18px;height:62px;background:#fff;border-radius:3px;
+opacity:0;transition:opacity .5s}
+.candle:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(20deg,transparent 0 12px,#ff4d6d 13px 17px)}
+.candle:after{content:"";position:absolute;top:-20px;left:3px;width:12px;height:20px;border-radius:50% 50% 45% 45%;
+background:#ffd166;box-shadow:0 0 15px 5px #ff9f1c;opacity:0}
+.candle.lit:after{opacity:1;animation:flicker .18s infinite alternate}
+.c1{left:24%}.c2{left:47%}.c3{left:70%}
+@keyframes flicker{to{transform:scale(1.15) translateY(-2px)}}
+.balloons{position:absolute;inset:0;pointer-events:none}
+.balloon{position:absolute;width:62px;height:76px;border-radius:50%;bottom:-120px;
+box-shadow:inset -8px -10px 15px #0003;opacity:0}
+.balloon:after{content:"";position:absolute;top:74px;left:31px;width:1px;height:130px;background:#bbb}
+.balloon.rise{animation:rise 4.5s cubic-bezier(.2,.8,.2,1) forwards}
+.b1{left:7%;background:#ff4d6d}.b2{left:23%;background:#ffd166;animation-delay:.3s}
+.b3{right:23%;background:#4dabf7;animation-delay:.6s}.b4{right:7%;background:#06d6a0;animation-delay:.9s}
+@keyframes rise{to{bottom:55%;opacity:1}}
+.gift{position:absolute;right:8%;bottom:20%;width:125px;height:95px;background:#9b5de5;
+border-radius:7px;opacity:0;transform:translateY(25px) scale(.8);transition:1s;box-shadow:0 10px 25px #0006}
+.gift.show{opacity:1;transform:none}
+.gift:before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:20px;height:100%;background:#ffd166}
+.gift:after{content:"";position:absolute;left:0;top:40%;width:100%;height:18px;background:#ffd166}
+.sparkle{position:absolute;color:#fff;font-size:30px;opacity:0}
+.sparkle.show{animation:spark 1.4s ease-in-out infinite}
+@keyframes spark{50%{opacity:1;transform:scale(1.5) rotate(20deg)}}
+.final{top:14%;opacity:0;transition:1s}
+.final.show{opacity:1}
+.final h1{margin:0;color:#ff69b4;font-size:clamp(2rem,8vw,4.2rem);
+text-shadow:0 0 20px #ff69b4}
+.final p{margin:10px 0;font-size:clamp(1rem,4vw,1.3rem)}
+.music{position:absolute;z-index:130;right:15px;top:15px;border:1px solid #ffffff44;
+background:#111827cc;color:#fff;border-radius:22px;padding:9px 14px;cursor:pointer}
+@media(max-width:600px){.gift{right:3%;bottom:18%;transform:scale(.62)}.gift.show{transform:scale(.62)}
+.balloon{transform:scale(.72)}.final{top:10%}}
+</style>
+</head>
+<body>
+<div class="scene">
+<div class="stars"></div>
+<div class="curtain left"></div><div class="curtain right"></div>
+
+<div class="intro" id="intro"><h2>A little birthday surprise...</h2></div>
+<button class="start" id="start">Tap to start 🎁</button>
+<button class="music" id="music">🔊 Music</button>
+
+<div class="cake" id="cake">
+<div class="layer bottom"></div><div class="frost"></div><div class="top"></div>
+<div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<div class="candle c1"></div><div class="candle c2"></div><div class="candle c3"></div>
+</div>
+
+<div class="balloons">
+<div class="balloon b1"></div><div class="balloon b2"></div><div class="balloon b3"></div><div class="balloon b4"></div>
+</div>
+
+<div class="gift" id="gift"></div>
+<div class="sparkle s1" style="left:12%;top:38%">✦</div>
+<div class="sparkle s2" style="right:12%;top:42%">✦</div>
+<div class="sparkle s3" style="left:25%;top:20%">✧</div>
+<div class="sparkle s4" style="right:25%;top:20%">✧</div>
+
+<div class="final" id="final">
+<h1>HAPPY BIRTHDAY! 🎂</h1>
+<p>Happy Birthday in advance! 🎉</p>
+<p>Hope you have a really great day!</p>
+</div>
+</div>
+
+<script>
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const start=document.getElementById("start"), intro=document.getElementById("intro");
+const cake=document.getElementById("cake"), gift=document.getElementById("gift");
+const candles=document.querySelectorAll(".candle"), final=document.getElementById("final");
+const balloons=document.querySelectorAll(".balloon"), sparkles=document.querySelectorAll(".sparkle");
+const musicBtn=document.getElementById("music");
+let audioCtx, musicOn=true, timer;
+
+function startMusic(){
+  if(!musicOn)return;
+  audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==="suspended")audioCtx.resume();
+  clearInterval(timer);
+  const notes=[261.63,293.66,329.63,392,329.63,293.66,261.63,392];
+  let i=0;
+  timer=setInterval(()=>{
+    if(!musicOn)return;
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type="sine";o.frequency.value=notes[i++%notes.length];
+    g.gain.setValueAtTime(.0001,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.045,audioCtx.currentTime+.03);
+    g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.55);
+    o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.6);
+  },650);
+}
+musicBtn.onclick=()=>{
+  musicOn=!musicOn;
+  musicBtn.textContent=musicOn?"🔊 Music":"🔇 Music";
+  if(musicOn)startMusic();else clearInterval(timer);
+};
+
+start.onclick=async()=>{
+  startMusic();
+  start.classList.add("hide");
+  intro.classList.remove("hidden");
+  await sleep(1100);
+  intro.classList.add("hidden");
+  document.querySelector(".curtain.left").classList.add("open");
+  document.querySelector(".curtain.right").classList.add("open");
+  await sleep(1700);
+
+  cake.classList.add("show");
+  await sleep(700);
+
+  for(const c of candles){c.style.opacity="1";await sleep(450)}
+  for(const c of candles){c.classList.add("lit");await sleep(700)}
+
+  gift.classList.add("show");
+  await sleep(500);
+
+  balloons.forEach(b=>b.classList.add("rise"));
+  await sleep(2300);
+
+  sparkles.forEach(s=>s.classList.add("show"));
+  await sleep(700);
+
+  final.classList.add("show");
+};
+</script>
+</body>
+</html>
